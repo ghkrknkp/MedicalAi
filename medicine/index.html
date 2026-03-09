@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MediScan AI — AI-powered Medical Disease Suggestion System. Enter symptoms via text, voice, or image and get instant disease suggestions ranked by probability.">
+  <title>MediScan AI — Medical Disease Suggestion System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+</head>
+<body>
+
+  <!-- Decorative Floating Shapes -->
+  <div class="floating-shapes">
+    <div class="shape shape--1"></div>
+    <div class="shape shape--2"></div>
+    <div class="shape shape--3"></div>
+    <div class="shape shape--4"></div>
+  </div>
+
+  <div class="container">
+
+    <!-- ─── Hero ──────────────────────────────── -->
+    <header class="hero">
+      <div class="hero-badge">🩺 ICD-10 &amp; SNOMED CT Powered</div>
+      <h1>🏥 <span class="gradient-text">MediScan AI</span></h1>
+      <p>Describe your symptoms using text, voice, or image — get instant disease suggestions with specialist recommendations, lab tests &amp; home care tips.</p>
+    </header>
+
+    <!-- ─── Disclaimer ────────────────────────── -->
+    <div class="disclaimer-banner">
+      <span class="icon">⚠️</span>
+      <span>This tool is for <strong>informational purposes only</strong> — it is <strong>NOT a substitute</strong> for professional medical advice, diagnosis, or treatment.</span>
+    </div>
+
+    <!-- ─── Stats Bar ─────────────────────────── -->
+    <div class="stats-bar">
+      <div class="stat-item"><span class="stat-icon">🧬</span> 30+ Diseases</div>
+      <div class="stat-item"><span class="stat-icon">🔬</span> 70+ Symptoms</div>
+      <div class="stat-item"><span class="stat-icon">👨‍⚕️</span> Specialist Match</div>
+      <div class="stat-item"><span class="stat-icon">🚨</span> Emergency Alerts</div>
+    </div>
+
+    <!-- ─── Input Section ─────────────────────── -->
+    <section class="input-section">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="text-panel" role="tab" id="tab-text">📝 Text</button>
+        <button class="tab-btn" data-tab="voice-panel" role="tab" id="tab-voice">🎙️ Voice</button>
+        <button class="tab-btn" data-tab="image-panel" role="tab" id="tab-image">📸 Image</button>
+      </div>
+
+      <!-- Text Panel -->
+      <div class="tab-panel active" id="text-panel" role="tabpanel">
+        <div class="input-card">
+          <textarea id="symptom-input" class="symptom-textarea"
+            placeholder="💬 Describe your symptoms here...&#10;&#10;Example: I have a high fever, severe headache, body aches, and a dry cough for 3 days."
+            rows="5"></textarea>
+          <div class="chip-section">
+            <h4>⚡ Quick Add Symptoms:</h4>
+            <div id="symptom-chips">
+              <span class="chip">🤒 Fever</span>
+              <span class="chip">🤕 Headache</span>
+              <span class="chip">😷 Cough</span>
+              <span class="chip">🤧 Sore Throat</span>
+              <span class="chip">😴 Fatigue</span>
+              <span class="chip">💪 Body Aches</span>
+              <span class="chip">🤢 Nausea</span>
+              <span class="chip">🫄 Diarrhea</span>
+              <span class="chip">💔 Chest Pain</span>
+              <span class="chip">😤 Shortness of Breath</span>
+              <span class="chip">😵‍💫 Dizziness</span>
+              <span class="chip">🔴 Rash</span>
+              <span class="chip">🦴 Joint Pain</span>
+              <span class="chip">🤰 Abdominal Pain</span>
+              <span class="chip">🤧 Runny Nose</span>
+              <span class="chip">🤮 Vomiting</span>
+            </div>
+          </div>
+          <button id="analyze-btn" class="btn-primary">🔬 Analyze My Symptoms</button>
+        </div>
+      </div>
+
+      <!-- Voice Panel -->
+      <div class="tab-panel" id="voice-panel" role="tabpanel">
+        <div class="input-card">
+          <div class="voice-container">
+            <button id="mic-btn" aria-label="Start voice recording">🎤</button>
+            <p id="voice-status" class="voice-status">👆 Tap the mic and describe your symptoms</p>
+            <div id="voice-transcript"></div>
+            <button id="voice-analyze-btn" class="btn-primary" style="margin-top:20px">🔬 Analyze Voice Input</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Panel -->
+      <div class="tab-panel" id="image-panel" role="tabpanel">
+        <div class="input-card">
+          <div id="image-dropzone">
+            <div class="drop-icon">📸</div>
+            <p><strong>Click to upload</strong> or drag &amp; drop an image</p>
+            <p style="font-size:0.82rem;margin-top:10px;color:var(--text-muted)">🖼️ Upload photos of visible symptoms (rash, swelling, skin changes, etc.)</p>
+          </div>
+          <input type="file" id="image-file" accept="image/*" style="display:none">
+          <div id="image-preview"></div>
+          <textarea id="image-desc" placeholder="✍️ Describe the symptoms visible in the image... (e.g., red rash on arms, swollen ankle)"></textarea>
+          <button id="image-analyze-btn" class="btn-primary">🔬 Analyze Image Symptoms</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Results ───────────────────────────── -->
+    <section id="results-section">
+      <div id="emergency-alert"></div>
+      <div id="extracted-symptoms"></div>
+      <div id="results-container"></div>
+      <svg style="width:0;height:0;position:absolute">
+        <defs>
+          <linearGradient id="probGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#2EC4B6"/>
+            <stop offset="100%" style="stop-color:#4361EE"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </section>
+
+    <!-- ─── Footer ────────────────────────────── -->
+    <footer class="footer">
+      <p>🏥 <strong>MediScan AI</strong> — Medical Disease Suggestion System<br>
+      🧬 Uses ICD-10 and SNOMED CT medical classification frameworks<br>
+      ⚕️ This is not a substitute for professional medical advice. Always consult a qualified healthcare provider.</p>
+    </footer>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
